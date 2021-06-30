@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Test for dependency `puppeteer` and install if needed
+# save
+sfx=$(date '+%Y-%m-%d.%H-%M-%S')
+npm list puppeteer 1> /dev/null || npm i puppeteer
+if [[ ! -e /tmp/eqzscrape.$sfx.1 ]]; then
+  EMAIL=email PASSWORD=password COMPANY_LIST=company_list.json.template node eqzscrape.js 1> /tmp/eqzscrape.$sfx.1 2> /tmp/eqzscrape.$sfx.2
+fi
+python eqzscrape.py /tmp/eqzscrape.$sfx.1 /tmp/eqzscrape.$sfx.2 $sfx --storage eqzscrape.json
